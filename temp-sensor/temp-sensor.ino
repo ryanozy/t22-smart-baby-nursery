@@ -23,7 +23,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 const char* ssid        = "Pixel_5725A";
 const char* password    = "82208220*Tt";
-const char* mqtt_server = "192.168.12.183";
+const char* mqtt_server = "192.168.12.167"; // Update according to your MQTT server
 
 unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE (50)
