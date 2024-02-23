@@ -27,4 +27,8 @@ This project will be a proof-of-concept for our IoT module, where we will be des
 ## Project Setup
 (In construction...)
 
+## References and Sources:
+1. https://www.instructables.com/ESP32-Based-M5Stack-M5stick-C-Weather-Monitor-With/
+2. https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/
+
 
