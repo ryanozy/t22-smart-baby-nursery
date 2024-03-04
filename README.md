@@ -2,7 +2,7 @@
 This project will be a proof-of-concept for our IoT module, where we will design a smart baby nursery. Leveraging on **Smart Home** technology to build an all-in-one **Smart Baby Nursery**
 
 ## Project Equipment
-1. Raspberry Pi4
+1. Raspberry Pi4 (MQTT Broker)
 2. Raspberry Pi Pico W
 3. M5 StickC-Plus
 4. Temperature + Humidity Sensor (MQTT Topic: `temperature-humidity`)
@@ -10,7 +10,7 @@ This project will be a proof-of-concept for our IoT module, where we will design
 6. Motor
 7. Raspberry Pi-Cam
 8. LED-Lights
-9. Sound Sensor
+9. Sound Sensor/USB Microphone
 10. Raspberry Pi3
 
 ## Software/Protocols/Technology Used
@@ -29,7 +29,7 @@ This project will be a proof-of-concept for our IoT module, where we will design
 
 ## Protocol Logs
 1. First, we landed on MQTT because we did not need to use long-range protocols, thus ruling out LoRa.
-2. Second, we decided against the subscription-based protocols like Z-Wave and Zigbee, reducing overhead costs and allowing us to use IoT devices that aren't compatible with these protocols
+2. Second, we decided against subscription-based protocols like Z-Wave and Zigbee, reducing overhead costs and allowing us to use IoT devices that aren't compatible with these protocols.
 
 ## References and Sources:
 1. https://www.instructables.com/ESP32-Based-M5Stack-M5stick-C-Weather-Monitor-With/
