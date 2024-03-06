@@ -17,7 +17,7 @@ This project will be a proof-of-concept for our IoT module, where we will design
 1. Python
 2. Home Assistant
 3. MQTT
-4. Arduino
+4. Arduino / C
 
 ## Project Logs
 1. We will abandon the usage of the Pico W, as we had some issues setting up the MQTT protocol on the Pico W. We will be using the M5 StickC-Plus instead.
