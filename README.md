@@ -35,7 +35,8 @@ This project will be a proof-of-concept for our IoT module, where we will design
 ## References and Sources:
 1. https://www.instructables.com/ESP32-Based-M5Stack-M5stick-C-Weather-Monitor-With/
 2. https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/
-3. https://www.home-assistant.io/integrations/stream/
-4. https://einar.slaskete.net/2018/08/16/using-a-raspberry-pi-as-a-surveillance-camera-in-home-assistant/
+3. https://gist.github.com/hkaji/8beef2790886b383e82e02585f9a5071
+4. https://www.home-assistant.io/integrations/stream/
+5. https://einar.slaskete.net/2018/08/16/using-a-raspberry-pi-as-a-surveillance-camera-in-home-assistant/
 
 
