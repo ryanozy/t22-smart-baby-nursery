@@ -7,7 +7,14 @@ PubSubClient client(espClient);
 
 const char* ssid        = "Pixel_5725A";
 const char* password    = "82208220*Tt";
-const char* mqtt_server = "192.168.12.183";
+const char* mqtt_server = "192.168.96.167";
+
+const double PWM_Hz = 50;   // PWM frequency
+const uint8_t PWM_level = 16; // PWM 16bit(0～65535)
+const uint16_t MIN_degree0 = 1638;    // 0.5 / 20 * 65535
+const uint16_t MAX_degree180 = 7864;  // 2.4 / 20 * 65535
+
+int movement = (MAX_degree180 - MIN_degree0) / 3; // move by 60 degrees each time
 
 #define MOTOR_PIN 26
 
@@ -17,13 +24,16 @@ void reConnect();
 
 void setup() {
     M5.begin();
+    Serial.begin(115200);
     M5.Lcd.setRotation(3);
     setupWifi();
     client.setServer(mqtt_server, 1883);
     client.setCallback(callback);
 
     pinMode(MOTOR_PIN, OUTPUT);
-    digitalWrite(MOTOR_PIN, LOW);
+    ledcSetup((uint8_t)1, PWM_Hz, PWM_level);
+    ledcAttachPin(MOTOR_PIN, 1);
+    ledcWrite(1, MIN_degree0);
 }
 
 void loop() {
@@ -31,8 +41,6 @@ void loop() {
         reConnect();
     }
     client.loop();
-
-    // Other loop tasks if any
 }
 
 void setupWifi() {
@@ -54,14 +62,22 @@ void setupWifi() {
 void callback(char* topic, byte* payload, unsigned int length) {
     // Handle messages received on subscribed topics
     if (strcmp(topic, "motor-movement") == 0) {
-        // Convert payload to integer (PWM duty cycle)
-        int dutyCycle = atoi((char *)payload);
+      Serial.println("Received Msg");
 
-        // Ensure duty cycle is within valid range (0-255)
-        dutyCycle = constrain(dutyCycle, 0, 255);
+      // Extract the movement duration from the payload and convert it to an integer
+      char durationString[length + 1];
+      memcpy(durationString, payload, length);
+      durationString[length] = '\0';
+      int movementDuration = atoi(durationString);
 
-        // Send PWM signal to motor pin
-        analogWrite(MOTOR_PIN, dutyCycle);
+      int i = 0;
+      while (i < movementDuration) {
+        ledcWrite(1, MIN_degree0);
+        delay(500);
+        ledcWrite(1, MAX_degree180);
+        delay(500);
+        i++;
+      }
     }
 }
 
