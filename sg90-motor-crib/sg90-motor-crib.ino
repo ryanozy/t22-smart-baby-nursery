@@ -5,9 +5,9 @@
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-const char* ssid        = "Pixel_5725A";
-const char* password    = "82208220*Tt";
-const char* mqtt_server = "192.168.96.167";
+const char* ssid        = "Pixel_5725A"; // WiFi SSID
+const char* password    = "82208220*Tt"; // WiFi password
+const char* mqtt_server = "192.168.96.167"; // MQTT server IP address
 
 const double PWM_Hz = 50;   // PWM frequency
 const uint8_t PWM_level = 16; // PWM 16bit(0～65535)

@@ -49,6 +49,16 @@ void setupWifi() {
     M5.Lcd.print(WiFi.localIP());
 }
 
+/**
+ * @brief Callback function for handling messages received on subscribed topics.
+ * 
+ * This function is called when a message is received on the "led-control" topic.
+ * It extracts the LED control command from the payload and performs the corresponding action.
+ * 
+ * @param topic The topic of the received message.
+ * @param payload The payload of the received message.
+ * @param length The length of the payload.
+ */
 void callback(char* topic, byte* payload, unsigned int length) {
     // Handle messages received on subscribed topics
     if (strcmp(topic, "led-control") == 0) {

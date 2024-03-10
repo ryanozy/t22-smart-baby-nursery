@@ -62,6 +62,9 @@ void loop() {
     client.publish("temperature-humidity", msg);
 }
 
+/**
+ * Setup WiFi connection
+ */
 void setupWifi() {
     delay(10);
     M5.Lcd.printf("Connecting to %s", ssid);
@@ -78,6 +81,9 @@ void setupWifi() {
     M5.Lcd.print(WiFi.localIP());
 }
 
+/**
+ * Reconnect to MQTT server
+ */
 void reConnect() {
     while (!client.connected()) {
         M5.Lcd.print("Attempting MQTT connection...");
