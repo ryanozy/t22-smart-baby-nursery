@@ -5,9 +5,11 @@
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-const char* ssid        = "Pixel_5725A";
-const char* password    = "82208220*Tt";
-const char* mqtt_server = "192.168.96.167";
+const char* ssid        = "ZP hotspot";
+const char* password    = "mynameisjeff2";
+const char* mqtt_server = "192.168.105.194";
+const char* username    = "mqtt-client";
+const char* pwd         = "P@ssw0rd";
 
 #define LED_PIN 26
 
@@ -80,9 +82,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reConnect() {
     while (!client.connected()) {
         M5.Lcd.print("Attempting MQTT connection...");
-        String clientId = "M5Stack-";
-        clientId += String(random(0xffff), HEX);
-        if (client.connect(clientId.c_str())) {
+        if (client.connect("person.mqtt_broker", username, password)) {
             M5.Lcd.printf("\nSuccess\n");
             // Subscribe to the LED control topic
             client.subscribe("led-control");
