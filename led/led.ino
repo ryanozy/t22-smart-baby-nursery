@@ -24,7 +24,6 @@ void setup() {
     setupWifi();
     client.setServer(mqtt_server, 1883);
     client.setCallback(callback);
-
     pinMode(LED_PIN, OUTPUT);
 }
 
@@ -82,8 +81,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reConnect() {
     while (!client.connected()) {
         M5.Lcd.print("Attempting MQTT connection...");
-        String clientId = "M5Stack-";
-        clientId += String(random(0xffff), HEX);
+        String clientId = "M5Stack-Led-Control";
         if (client.connect(clientId.c_str(), username, pwd)) {
             M5.Lcd.printf("\nSuccess\n");
             // Subscribe to the LED control topic

@@ -8,6 +8,8 @@ PubSubClient client(espClient);
 const char* ssid        = "Pixel_5725A";     // WiFi SSID
 const char* password    = "82208220*Tt";    // WiFi password
 const char* mqtt_server = "192.168.96.167"; // MQTT server IP address
+const char* username    = "mqtt-user";
+const char* pwd         = "P@ssw0rd";
 
 const double PWM_Hz = 50;   // PWM frequency
 const uint8_t PWM_level = 16; // PWM 16bit(0～65535)
@@ -80,9 +82,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reConnect() {
     while (!client.connected()) {
         M5.Lcd.print("Attempting MQTT connection...");
-        String clientId = "M5Stack-";
-        clientId += String(random(0xffff), HEX);
-        if (client.connect(clientId.c_str())) {
+        String clientId = "M5Stack-Blinds-Control";
+        if (client.connect(clientId.c_str(), username, pwd)) {
             M5.Lcd.printf("\nSuccess\n");
             // Subscribe to the motor movement topic
             client.subscribe("blinds-movement");

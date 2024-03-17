@@ -24,6 +24,8 @@ DHT dht(DHTPIN, DHTTYPE);
 const char* ssid        = "Pixel_5725A";
 const char* password    = "82208220*Tt";
 const char* mqtt_server = "192.168.12.167"; // Update according to your MQTT server
+const char* username    = "mqtt-user";
+const char* pwd         = "P@ssw0rd";
 
 unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE (50)
@@ -87,9 +89,8 @@ void setupWifi() {
 void reConnect() {
     while (!client.connected()) {
         M5.Lcd.print("Attempting MQTT connection...");
-        String clientId = "M5Stack-";
-        clientId += String(random(0xffff), HEX);
-        if (client.connect(clientId.c_str())) {
+        String clientId = "M5Stack-Temp-Sensor";
+        if (client.connect(clientId.c_str(), username, pwd)) {
             M5.Lcd.printf("\nSuccess\n");
         } else {
             M5.Lcd.print("failed, rc=");
