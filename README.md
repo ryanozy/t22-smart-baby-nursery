@@ -10,7 +10,7 @@ This project will be a proof-of-concept for our IoT module, where we will design
 6. DC Motor
 7. Raspberry Pi-Cam 2
 8. LED-Lights (MQTT Topic: `led-control`)
-9. Sound Sensor (KY037 Sound Detection Module) / USB Microphone
+9. Sound Sensor (KY037 Sound Detection Module) / ~~USB Microphone~~
 10. Raspberry Pi3 
 
 ## Software/Protocols/Technology Used
