@@ -25,6 +25,8 @@ This project will be a proof-of-concept for our IoT module, where we will design
 3. Due to the power consumption of the SG995 Servo Motor, we will use the SG90 Micro Servo Motor Module to allow the M5StickC Plus to control the movement via PWM.
 4. For the Pi-Camera, we will utilise the in-built customisation within Home Assistant to stream the video feed to Home Assistant for the Homeowner to view the baby.
 ~~5. To limit the MQTT traffic in attempts to reduce the latency, we will update the DHT11 Temperature and Humidity Sensors to update on Command from the Home Assistant~~
+6. Added the scripts to autorun on startup
+7. Added the automation scripts to the Home Assistant OS
 
 ## Project Setup
 (In construction...)
@@ -61,5 +63,6 @@ This project will be a proof-of-concept for our IoT module, where we will design
 4. https://www.home-assistant.io/integrations/stream/
 5. https://einar.slaskete.net/2018/08/16/using-a-raspberry-pi-as-a-surveillance-camera-in-home-assistant/
 6. https://www.instructables.com/Sound-Sensor-Raspberry-Pi/
+7. https://gist.github.com/emxsys/a507f3cad928e66f6410e7ac28e2990f
 
 
