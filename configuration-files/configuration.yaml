@@ -1,0 +1,56 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+camera:
+  - platform: ffmpeg
+    name: Raspicam
+    input: tcp://192.168.96.55:9000
+    
+mqtt:
+  sensor:
+    - name: "Sound Detection"
+      state_topic: "sound-detection"
+    - name: "Temperature and Humidity"
+      state_topic: "temperature-humidity"
+  switch:
+    - name: "Led-Control"
+      command_topic: "led-control"
+      payload_on: "on"
+      payload_off: "off"
+      state_on: "on"
+      state_off: "off"
+      optimistic: true
+      retain: true
+    - name: "Blinds-Control"
+      command_topic: "blinds-movement"
+      payload_on: "open"
+      payload_off: "close"
+      state_on: "open"
+      state_off: "close"
+      optimistic: true
+      retain: true
+    - name: "Crib-Control"
+      command_topic: "motor-movement"
+      payload_on: "rock"
+      payload_off: "stop"
+      state_on: "rock"
+      state_off: "stop"
+      optimistic: true
+      retain: true
+    - name: "Fan-Control"
+      command_topic: "fan"
+      payload_on: "on"
+      payload_off: "off"
+      state_on: "on"
+      state_off: "off"
+      optimistic: true
+      retain: true
+     
