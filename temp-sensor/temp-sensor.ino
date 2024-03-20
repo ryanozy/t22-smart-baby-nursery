@@ -23,7 +23,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 const char* ssid        = "Pixel_5725A";
 const char* password    = "82208220*Tt";
-const char* mqtt_server = "192.168.12.167"; // Update according to your MQTT server
+const char* mqtt_server = "192.168.96.194"; // Update according to your MQTT server
 const char* username    = "mqtt-user";
 const char* pwd         = "P@ssw0rd";
 
@@ -60,7 +60,7 @@ void loop() {
         return;
     }
 
-    snprintf (msg, MSG_BUFFER_SIZE, "{\"temperature\":%.2f,\"humidity\":%.2f}", t, h);
+    snprintf (msg, MSG_BUFFER_SIZE, "temperature:%.2f, humidity:%.2f", t, h);
     client.publish("temperature-humidity", msg);
 }
 

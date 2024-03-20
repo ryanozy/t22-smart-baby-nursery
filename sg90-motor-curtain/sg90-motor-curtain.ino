@@ -7,7 +7,7 @@ PubSubClient client(espClient);
 
 const char* ssid        = "Pixel_5725A";     // WiFi SSID
 const char* password    = "82208220*Tt";    // WiFi password
-const char* mqtt_server = "192.168.96.167"; // MQTT server IP address
+const char* mqtt_server = "192.168.96.194 "; // MQTT server IP address
 const char* username    = "mqtt-user";
 const char* pwd         = "P@ssw0rd";
 
