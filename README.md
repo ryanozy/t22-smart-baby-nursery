@@ -56,6 +56,11 @@ This project will be a proof-of-concept for our IoT module, where we will design
 2. DHT11 Yellow Wire (Data) to M5StickC Plus G26 PIN
 3. DHT11 Orange Wire (GND) to M5StickC Plus GND PIN
 
+#### KY037 - Sound Detection Module
+1. KY037 Red Wire (+) to Raspberry Pi 3 PIN 4 (5V Output)
+2. KY037 Yellow Wire (GND) to Raspberry Pi 3 PIN 6 (GND)
+3. KY037 Orange Wire (Digital Pin / D0) to Raspberry Pi 3 PIN 8 (GPIO 14)
+
 ## References and Sources:
 1. https://www.instructables.com/ESP32-Based-M5Stack-M5stick-C-Weather-Monitor-With/
 2. https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/
