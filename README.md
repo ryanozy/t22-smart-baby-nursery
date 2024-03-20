@@ -24,6 +24,7 @@ This project will be a proof-of-concept for our IoT module, where we will design
 2. Currently unable to connect the Pi-Cam to the Raspberry Pi4, as the Pi-Cam is incompatible with the Raspberry Pi4. We will be using a Pi3 instead.
 3. Due to the power consumption of the SG995 Servo Motor, we will use the SG90 Micro Servo Motor Module to allow the M5StickC Plus to control the movement via PWM.
 4. For the Pi-Camera, we will utilise the in-built customisation within Home Assistant to stream the video feed to Home Assistant for the Homeowner to view the baby.
+5. To limit the MQTT traffic in attempts to reduce the latency, we will update the DHT11 Temperature and Humidity Sensors to update on Command from the Home Assistant
 
 ## Project Setup
 (In construction...)
@@ -31,6 +32,27 @@ This project will be a proof-of-concept for our IoT module, where we will design
 ## Protocol Logs
 1. First, we landed on MQTT because we did not need to use long-range protocols, thus ruling out LoRa.
 2. Second, we decided against subscription-based protocols like Z-Wave and Zigbee, reducing overhead costs and allowing us to use IoT devices that aren't compatible with these protocols.
+3. We will not use the external Broker. Instead, we will utilise the internal Home Assistant Add-On MQTT Broker to save on the number of Raspberry Pi used for this project.
+
+## Pinouts
+#### Blinds Control
+1. Servo Motor Red Wire (5V) to M5StickC Plus Grey Wire (5V Output)
+2. Servo Motor Brown Wire (GND) to M5StickC Plus Red Wire (GND)
+3. Servo Motor Orange Wire (PWM) to M5StickC Plus Green Wire (G26)
+
+#### Crib Control
+1. Servo Motor Red Wire (5V) to M5StickC Plus Blue Wire (5V Output)
+2. Servo Motor Brown Wire (GND) to M5StickC Plus Green Wire (GND)
+3. Servo Motor Orange Wire (PWM) to M5StickC Plus Black Wire (G26)
+
+#### LED Control
+1. LED Longer Wire to G26
+2. LED Shorter Wire to GND
+
+#### DHT11 Sensor
+1. DHT11 Red Wire (VCC PIN) to M5StickC Plus 3V3 PIN
+2. DHT11 Yellow Wire (Data) to M5StickC Plus G26 PIN
+3. DHT11 Orange Wire (GND) to M5StickC Plus GND PIN
 
 ## References and Sources:
 1. https://www.instructables.com/ESP32-Based-M5Stack-M5stick-C-Weather-Monitor-With/
