@@ -39,15 +39,21 @@ def publish(client):
             client.publish(topic, msg)
         else:
             print("GPIO pin %s is %s" % (channel, "LOW"))
-            msg = "No Sound Detected"
+            msg = "Sound Detected"
             client.publish(topic, msg)
 
     
     # let us know when the pin goes HIGH or LOW
-    GPIO.add_event_detect(channel, GPIO.BOTH, bouncetime=300)
+    GPIO.add_event_detect(channel, GPIO.BOTH, bouncetime=100)
     # assign function to GPIO PIN, Run function on change
     GPIO.add_event_callback(channel, callback)
 
+    # infinite loop
+    while True:
+        time.sleep(2)
+        if not GPIO.event_detected(channel):
+            msg = "No Sound Detected"
+            client.publish(topic, msg)
 
 
 def run():

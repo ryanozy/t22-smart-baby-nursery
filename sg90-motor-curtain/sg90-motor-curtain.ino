@@ -35,7 +35,7 @@ void setup() {
     pinMode(MOTOR_PIN, OUTPUT);
     ledcSetup((uint8_t)1, PWM_Hz, PWM_level);
     ledcAttachPin(MOTOR_PIN, 1);
-    ledcWrite(1, MIN_degree0);
+    ledcWrite(1, MIN_degree0+movement+movement);
 }
 
 void loop() {
@@ -72,7 +72,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
       movementString[length] = '\0';
 
       if (strcmp(movementString, "open") == 0) {
-        ledcWrite(1, MIN_degree0); // Move the motor to the minimum position (0 degrees)
+        ledcWrite(1, MIN_degree0+movement+movement); // Move the motor to the minimum position (0 degrees)
       } else if (strcmp(movementString, "close") == 0) {
         ledcWrite(1, MAX_degree180); // Move the motor to the maximum position (180 degrees)
       }
