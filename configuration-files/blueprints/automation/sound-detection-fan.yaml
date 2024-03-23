@@ -1,0 +1,18 @@
+blueprint:
+  name: Sound Detection with Fan Control
+  description: Turn on fan based on sound detection
+  domain: automation
+
+trigger:
+  platform: state
+  entity_id: sensor.sound_detection
+
+action:
+  service: >
+    {% if trigger.to_state.state == "Sound Detected" and is_state('input_boolean.fan_control', 'on') %}
+      switch.turn_on
+    {% else %}
+      switch.turn_off
+    {% endif %}
+  target:
+    entity_id: switch.fan_control
