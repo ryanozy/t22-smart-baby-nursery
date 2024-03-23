@@ -32,6 +32,7 @@ This project will be a proof-of-concept for our IoT module, where we will design
     * Customise threshold to automatically turn on or off the fan
     * Customise response to baby crying. *Fan*, *Crib Rocker* and *LED*
 10. Implement security measure on the Raspberry Pi 3 *(With the Pi Cam)*. To ensure that only the Home Assistant can communicate with the Camera, and secure the Baby Monitor Footage
+
 `sudo ufw allow ssh
 sudo ufw allow from 192.168.96.194 to any port 9000 proto tcp
 sudo ufw allow from 192.168.96.194 to any port 1883 proto tcp
