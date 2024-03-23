@@ -16,8 +16,12 @@ const uint8_t PWM_level = 16;        // PWM 16bit(0～65535)
 const uint16_t MIN_degree0 = 1638;   // 0.5 / 20 * 65535
 const uint16_t MAX_degree180 = 7864; // 2.4 / 20 * 65535
 
-int movement = (MAX_degree180 - MIN_degree0) / 3; // move by 60 degrees each time
+int movement = (MAX_degree180 - MIN_degree0) / 18; // move by 10 degrees each time
 bool isRocking = false;
+// Define variables for smoother movement
+const int steps = 50; // Number of steps for smoother movement
+const int delayTime = 10; // Delay time between each step
+
 #define MOTOR_PIN 26
 
 void setupWifi();
@@ -49,10 +53,21 @@ void loop()
 
     if (isRocking)
     {
-        ledcWrite(1, MIN_degree0);
-        delay(500);
-        ledcWrite(1, MAX_degree180);
-        delay(500);
+        smoothMove(MIN_degree0, MIN_degree0 + movement, steps);
+        smoothMove(MIN_degree0 + movement, MIN_degree0 + movement + movement, steps);
+        smoothMove(MIN_degree0 + movement + movement, MIN_degree0 + movement, steps);
+        smoothMove(MIN_degree0 + movement, MIN_degree0, steps);
+    }
+}
+
+void smoothMove(int startPos, int endPos, int numSteps)
+{
+    int posIncrement = (endPos - startPos) / numSteps;
+    for (int i = 0; i < numSteps; i++)
+    {
+        int newPos = startPos + (posIncrement * i);
+        ledcWrite(1, newPos);
+        delay(delayTime);
     }
 }
 

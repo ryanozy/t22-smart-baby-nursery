@@ -60,7 +60,7 @@ void loop() {
         return;
     }
 
-    snprintf (msg, MSG_BUFFER_SIZE, "temperature:%.2f, humidity:%.2f", t, h);
+    snprintf (msg, MSG_BUFFER_SIZE, "Temperature: %.2f, Humidity: %.2f", t, h);
     client.publish("temperature-humidity", msg);
 }
 

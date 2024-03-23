@@ -1,0 +1,20 @@
+blueprint:
+  name: Temperature Control with Fan
+  description: Turn on fan based on temperature
+  domain: automation
+
+trigger:
+  platform: state
+  entity_id: sensor.temperature_and_humidity
+
+action:
+  service: >
+    {% set temperature_threshold = states('input_number.fan_automation_trigger') | float %}
+    {% set temperature = trigger.to_state.state.split(',')[0].split(':')[1].strip() | float %}
+    {% if temperature > temperature_threshold %}
+      switch.turn_on
+    {% else %}
+      switch.turn_off
+    {% endif %}
+  target:
+    entity_id: switch.fan_control
