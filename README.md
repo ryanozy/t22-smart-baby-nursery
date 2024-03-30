@@ -25,8 +25,18 @@ This project will be a proof-of-concept for our IoT module, where we will design
 3. Due to the power consumption of the SG995 Servo Motor, we will use the SG90 Micro Servo Motor Module to allow the M5StickC Plus to control the movement via PWM.
 4. For the Pi-Camera, we will utilise the in-built customisation within Home Assistant to stream the video feed to Home Assistant for the Homeowner to view the baby.
 ~~5. To limit the MQTT traffic in attempts to reduce the latency, we will update the DHT11 Temperature and Humidity Sensors to update on Command from the Home Assistant~~
-6. Added the scripts to autorun on startup
+6. Added the scripts to autorun on startup (For Pi-Cam and Sound Detection Sensors)
 7. Added the automation scripts to the Home Assistant OS
+8. Added user customisation for Automation values into the Home Assistant Dashboard
+![Home Assistant Dashboard](dashboard-v1.png)
+    * Customise threshold to automatically turn on or off the fan
+    * Customise response to baby crying. *Fan*, *Crib Rocker* and *LED*
+9. Implement security measure on the Raspberry Pi 3 *(With the Pi Cam)*. To ensure that only the Home Assistant can communicate with the Camera, and secure the Baby Monitor Footage
+    * `sudo ufw allow ssh`
+    * `sudo ufw allow from 192.168.96.194 to any port 9000 proto tcp`
+    * `sudo ufw allow from 192.168.96.194 to any port 1883 proto tcp`
+    * `sudo ufw enable`
+
 
 ## Project Setup
 (In construction...)
