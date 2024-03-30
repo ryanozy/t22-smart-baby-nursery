@@ -36,6 +36,7 @@ This project will be a proof-of-concept for our IoT module, where we will design
     * `sudo ufw allow from 192.168.96.194 to any port 9000 proto tcp`
     * `sudo ufw allow from 192.168.96.194 to any port 1883 proto tcp`
     * `sudo ufw enable`
+10. Implementation of Performance Testing with BLE
 
 
 ## Project Setup
