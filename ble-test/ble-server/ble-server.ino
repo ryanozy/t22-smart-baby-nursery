@@ -13,14 +13,17 @@ int deviceConnected = 0;
 #define SERVICE_UUID "01234567-0123-4567-89ab-0123456789ab"
 
 // Temperature Characteristic and Descriptor
-BLECharacteristic imuTemperatureCelsiusCharacteristics("01234567-0123-4567-89ab-0123456789cd", BLECharacteristic::PROPERTY_NOTIFY);
-BLEDescriptor imuTemperatureCelsiusDescriptor(BLEUUID((uint16_t)0x2902));
+BLECharacteristic ProcessTimeCharacteristics("01234567-0123-4567-89ab-0123456789cd", BLECharacteristic::PROPERTY_NOTIFY);
+BLEDescriptor ProcessTimeDescriptor(BLEUUID((uint16_t)0x2902));
 
 // LED Characteristic and Descriptor
 BLECharacteristic ledCharacteristics("01234567-0123-4567-89ab-0123456789ff", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY);
 BLEDescriptor ledDescriptor(BLEUUID((uint16_t)0x2904));
 
 bool setStatus();
+
+double processStartTime = 0.0;
+double processEndTime = 0.0;
 
 class MyServerCallbacks : public BLEServerCallbacks
 {
@@ -40,16 +43,16 @@ class MyServerCallbacks : public BLEServerCallbacks
 bool setStatus()
 {
 
-    currentTime = millis();
+    double processTime = processEndTime - processStartTime;
     // Convert Value to String
-    static char tempStr[20];
+    static char processTimeStr[20];
     static char ledStr[10];
 
-    dtostrf(currentTime, 6, 2, tempStr);
+    dtostrf(processTime, 6, 2, processTimeStr);
 
     // Set IMU temperature
-    imuTemperatureCelsiusCharacteristics.setValue(tempStr);
-    imuTemperatureCelsiusCharacteristics.notify();
+    ProcessTimeCharacteristics.setValue(processTimeStr);
+    ProcessTimeCharacteristics.notify();
 
     if (digitalRead(M5_LED) == 0)
     {
@@ -129,9 +132,9 @@ void setup()
     BLEService *bleService = pServer->createService(SERVICE_UUID);
 
     // Create BLE Characteristics
-    bleService->addCharacteristic(&imuTemperatureCelsiusCharacteristics);
-    imuTemperatureCelsiusDescriptor.setValue("IMU Temperature(C)");
-    imuTemperatureCelsiusCharacteristics.addDescriptor(&imuTemperatureCelsiusDescriptor);
+    bleService->addCharacteristic(&ProcessTimeCharacteristics);
+    ProcessTimeDescriptor.setValue("IMU Temperature(C)");
+    ProcessTimeCharacteristics.addDescriptor(&ProcessTimeDescriptor);
 
     // LED
     bleService->addCharacteristic(&ledCharacteristics);
@@ -153,15 +156,17 @@ void loop()
     if (deviceConnected >= 1)
     {
         std::string value = ledCharacteristics.getValue();
-
+        processStartTime = millis();
         if (value[0] == 'R')
         {
+            processEndTime = millis();
             setStatus();
             printReadings();
         }
         else if (value[0] == 'L')
         {
             digitalWrite(M5_LED, !digitalRead(M5_LED));
+            processEndTime = millis();
             setStatus();
             printReadings();
         }

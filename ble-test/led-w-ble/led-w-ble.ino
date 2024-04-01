@@ -8,7 +8,7 @@
 // BLE Service
 static BLEUUID bleServiceUUID("01234567-0123-4567-89ab-0123456789ab");
 
-static BLEUUID temperatureCharacteristicUUID("01234567-0123-4567-89ab-0123456789cd");
+static BLEUUID processTimeCharacteristicUUID("01234567-0123-4567-89ab-0123456789cd");
 
 // LED Characteristic
 static BLEUUID ledCharacteristicUUID("01234567-0123-4567-89ab-0123456789ff");
@@ -21,7 +21,7 @@ static boolean connected = false;
 static BLEAddress *pServerAddress;
 
 // Characteristicd that we want to read
-static BLERemoteCharacteristic *temperatureCharacteristic;
+static BLERemoteCharacteristic *processTimeCharacteristic;
 static BLERemoteCharacteristic *voltageCharacteristic;
 static BLERemoteCharacteristic *ledCharacteristic;
 
@@ -29,13 +29,16 @@ static BLERemoteCharacteristic *ledCharacteristic;
 const uint8_t notificationOn[] = {0x1, 0x0};
 const uint8_t notificationOff[] = {0x0, 0x0};
 
-// Variables to store temperature and voltage
-char temperatureStr[20];  
+// Variables to store process and voltage
+char processStr[20];  
 char ledStr[10]; 
 
-boolean newTemperature = false;
+boolean newProcess = false;
 boolean newVoltage = false;
 boolean newLed = false;
+
+double messageSentTime = 0.0;
+double messageReceivedTime = 0.0;
 
 // Connect to the BLE Server that has the name, Service, and Characteristics
 bool connectToServer(BLEAddress pAddress)
@@ -56,10 +59,10 @@ bool connectToServer(BLEAddress pAddress)
     }
 
     // Obtain a reference to the characteristics in the service of the remote BLE server.
-    temperatureCharacteristic = pRemoteService->getCharacteristic(temperatureCharacteristicUUID);
+    processTimeCharacteristic = pRemoteService->getCharacteristic(processTimeCharacteristicUUID);
     ledCharacteristic = pRemoteService->getCharacteristic(ledCharacteristicUUID);
 
-    if (temperatureCharacteristic == nullptr || ledCharacteristic == nullptr)
+    if (processTimeCharacteristic == nullptr || ledCharacteristic == nullptr)
     {
         Serial.print("Failed to find our characteristic UUID");
         return false;
@@ -67,7 +70,7 @@ bool connectToServer(BLEAddress pAddress)
     Serial.println(" - Found all characteristics");
 
     // Assign callback functions for the Characteristics
-    temperatureCharacteristic->registerForNotify(temperatureNotifyCallback);
+    processTimeCharacteristic->registerForNotify(processNotifyCallback);
 
     // Assign callback function for the LED characteristic
     if (ledCharacteristic->canWrite())
@@ -102,14 +105,14 @@ class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     }
 };
 
-// When the BLE Server sends a new temperature reading with the notify property
-static void temperatureNotifyCallback(BLERemoteCharacteristic *pBLERemoteCharacteristic,
+// When the BLE Server sends a new process timing reading with the notify property
+static void processNotifyCallback(BLERemoteCharacteristic *pBLERemoteCharacteristic,
                                       uint8_t *pData, size_t length, bool isNotify)
 {
-    // store temperature value
-    strncpy(temperatureStr, (char*)pData, length);
-    temperatureStr[length] = '\0';
-    newTemperature = true;
+    // store process timing 
+    strncpy(processStr, (char*)pData, length);
+    processStr[length] = '\0';
+    newProcess = true;
 }
 
 static void ledNotifyCallback(BLERemoteCharacteristic *pBLERemoteCharacteristic,
@@ -124,18 +127,23 @@ static void ledNotifyCallback(BLERemoteCharacteristic *pBLERemoteCharacteristic,
 // function that prints the latest sensor readings in the OLED display
 void printReadings()
 {
-    // Temperature Celsius
+    // Server Processing Time
+    double receivedVal = atof(processStr);
     M5.Lcd.setCursor(0, 20, 2);
-    M5.Lcd.print("Timestamp = ");
-    M5.Lcd.print(temperatureStr);
+    M5.Lcd.print("Server Process Time = ");
+    M5.Lcd.print(receivedVal);
     M5.Lcd.println("");
 
-    double receivedVal = atof(temperatureStr);
+    // total time taken to receive the data
+    double totalLatency = messageReceivedTime - messageSentTime;
 
+    // Total Time taken to receive the data
     M5.Lcd.setCursor(0, 40, 2);
     M5.Lcd.print("Latency = ");
-    M5.Lcd.print(millis()-receivedVal);
+    M5.Lcd.print(totalLatency);
     M5.Lcd.println("");
+
+    // Total 
 
     // display LED status
     M5.Lcd.setCursor(0, 60, 2);
@@ -185,7 +193,7 @@ void loop()
             Serial.println("Connected to the BLE Server.");
 
             // Activate the Notify property of each Characteristic
-            temperatureCharacteristic->getDescriptor(BLEUUID((uint16_t)0x2902))->writeValue((uint8_t *)notificationOn, 2, true);
+            processTimeCharacteristic->getDescriptor(BLEUUID((uint16_t)0x2902))->writeValue((uint8_t *)notificationOn, 2, true);
             ledCharacteristic->getDescriptor(BLEUUID((uint16_t)0x2904))->writeValue((uint8_t *)notificationOn, 2, true);
             connected = true;
         }
@@ -198,18 +206,20 @@ void loop()
 
     if (connected)
     {
-        if (newTemperature || newVoltage || newLed)
+        if (newProcess || newVoltage || newLed)
         {
+            messageReceivedTime = millis();
             printReadings();
-            newTemperature = false;
+            newProcess = false;
             newLed = false;
         }
 
         if (digitalRead(M5_BUTTON_HOME) == LOW)
         {
-            String Reqest = "Read Data";
-            ledCharacteristic->writeValue(Reqest.c_str(), Reqest.length());
+            // String Reqest = "Read Data";
+            // ledCharacteristic->writeValue(Reqest.c_str(), Reqest.length());
 
+            messageSentTime = millis();
             String Request = "Led";
             ledCharacteristic->writeValue(Request.c_str(), Request.length());
 
@@ -220,5 +230,5 @@ void loop()
     }
 
 
-    delay(1000); // Delay one second between loops.
+    delay(500); // Delay one second between loops.
 }
