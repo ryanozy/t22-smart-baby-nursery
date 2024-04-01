@@ -28,31 +28,43 @@ This **CSC2106** project will be a proof-of-concept for our IoT module, where we
 6. Added the scripts to autorun on startup (For Pi-Cam and Sound Detection Sensors)
 7. Added the automation scripts to the Home Assistant OS
 8. Added user customisation for Automation values into the Home Assistant Dashboard
-![Home Assistant Dashboard](dashboard-v1.png)
     * Customise threshold to automatically turn on or off the fan
     * Customise response to baby crying. *Fan*, *Crib Rocker* and *LED*
+
+![Home Assistant Dashboard](dashboard-v1.png)
+
 9. Implement security measures on the Raspberry Pi 3 *(With the Pi Cam)*. To ensure that only the Home Assistant can communicate with the Camera, and secure the Baby Monitor Footage
     * `sudo ufw allow ssh`
     * `sudo ufw allow from 192.168.96.194 to any port 9000 proto tcp`
     * `sudo ufw allow from 192.168.96.194 to any port 1883 proto tcp`
     * `sudo ufw enable`
+    
 10. Implementation of Performance Testing with BLE
 
 
 ## Project Setup
 ![Architecture Diagram](CSC2106_architecture.drawio.png)
+
 1. Insert code into respective microcontrollers, follow the [Hardware Pinouts](#hardware-pinouts)
    * Image Home Assistant OS Image into SD Card
    * Insert SD into Raspberry Pi 4 and setup Home Assistant OS on a Raspberry Pi 4
    * Connect it to your home network to access it at (**homeassistant.local:8123**)
    * Insert [Fan](Fan/fan.py) code into Raspberry Pi 4
-   * Setup raspicam.service into Raspberry Pi 3, connect camera module into Raspberry Pi 3
+   * <img src="fan-connection.jpg" alt="Fan Setup" width="50%" height="50%">
+   * Connect camera module into Raspberry Pi 3
+   * <img src="babycam_physical.jpg" alt="Baby Monitor Setup" width="50%" height="50%">
    * Insert [LED](led/led.ino) code into M5StickC Plus Microcontroller
+   * <img src="led_connection.jpg" alt="LED Setup" width="50%" height="50%">
    * Insert [Crib Rocker](sg90-motor-crib/sg90-motor-crib.ino) code into a M5StickC Plus Microcontroller
    * Insert [Curtain Control](sg90-motor-curtain/sg90-motor-curtain.ino) code into a M5StickC Plus Microcontroller
+   * <img src="servo.jpg" alt="Micro Servo Setup" width="50%" height="50%">
    * Insert [Crying Detection](sound-detection/sound-detection.py) code into Raspberry Pi 3
+   * <img src="sound-detection.jpg" alt="Sound Detection Setup" width="50%" height="50%">
    * Setup hello.service into the Pi 3 as well to ensure the Crying Detection program executes on startup
+   * Setup raspicam.service into Raspberry Pi 3 to ensure the Camera Stream executes on startup
+   * <img src="raspicam-service.png" alt="Raspicam Service" width="50%" height="50%">
    * Insert [Temperature and Humdity](temp-sensor/temp-sensor.ino) code into a M5StickC Plus Microcontroller
+   * <img src="temp-sensor.jpg" alt="Temperature Sensor Setup" width="50%" height="50%">
 2. Install MQTT Broker Add-On in the Home Assistant Server (**Keep Track of IP Address and update the code accordingly if needed**)
 3. Insert automation files in the directory
 4. Update the configuration file using the [sample configuration.yaml file](configuration-files/configuration.yaml)
@@ -78,7 +90,7 @@ This **CSC2106** project will be a proof-of-concept for our IoT module, where we
 
 #### Crib Control
 1. Servo Motor 5V to M5StickC Plus 5V Output
-2. Servo Motor GND) to M5StickC Plus GND
+2. Servo Motor GND to M5StickC Plus GND
 3. Servo Motor PWM to M5StickC Plus GPIO26
 
 #### LED Control
