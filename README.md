@@ -40,7 +40,7 @@ This **CSC2106** project will be a proof-of-concept for our IoT module, where we
 
 
 ## Project Setup
-![Architecture Diagram](architecture-diagram.png)
+![Architecture Diagram](CSC2106_architecture.drawio.png)
 1. Insert code into respective microcontrollers
    * Image Home Assistant OS Image into SD Card
    * Insert SD into Raspberry Pi 4 and setup Home Assistant OS on a Raspberry Pi 4
