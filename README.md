@@ -41,7 +41,7 @@ This **CSC2106** project will be a proof-of-concept for our IoT module, where we
 
 ## Project Setup
 ![Architecture Diagram](CSC2106_architecture.drawio.png)
-1. Insert code into respective microcontrollers
+1. Insert code into respective microcontrollers, follow the [Hardware Pinouts](#hardware-pinouts)
    * Image Home Assistant OS Image into SD Card
    * Insert SD into Raspberry Pi 4 and setup Home Assistant OS on a Raspberry Pi 4
    * Connect it to your home network to access it at (**homeassistant.local:8123**)
@@ -70,7 +70,7 @@ This **CSC2106** project will be a proof-of-concept for our IoT module, where we
    * Raspberry Pi Cam is not suitable with BLE.
    * Not enough hardware microcontrollers to conduct full testing of all BLE-capable microcontrollers.
 
-## Pinouts
+## Hardware Pinouts
 #### Blinds Control
 1. Servo Motor 5V to M5StickC Plus 5V Output
 2. Servo Motor GND to M5StickC Plus GND
