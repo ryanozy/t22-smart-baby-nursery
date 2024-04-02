@@ -9,11 +9,14 @@ topic = 'led-control'
 # Generate a Client ID with the publish prefix.
 client_id = 'Sound-Detection-Module'
 
+time_start = int(time.time() * 1000)
+time_end = 0
 
 def connect_mqtt():
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
             print("Connected to MQTT Broker!")
+            client.subscribe('led-ack')
         else:
             print(f"Failed to connect, return code {rc}")
             try:
@@ -31,19 +34,29 @@ def connect_mqtt():
         print("Network unreachable. Retrying in 5 seconds...")
         time.sleep(5)
         connect_mqtt()
+    
     return client
 
 
 def publish(client):
 
-    msg = str(int(time.time() * 1000))
-    client.publish(topic, msg)
+    client.publish(topic, "on")
     
-
+def on_message(client, userdata, message):
+    msg = message.payload.decode()
+    print(f"Received message: {msg}")
+    if msg == "Command received":
+        time_end = int(time.time() * 1000)
+        print(f"Latency: {(time_end - time_start)}ms")
+        # Print start and end time
+        print(f"Start time: {time_start}")
+        print(f"End time: {time_end}")
+        client.disconnect()
 
 def run():
     client = connect_mqtt()
     publish(client)
+    client.on_message = on_message
     client.loop_forever()
 
 
